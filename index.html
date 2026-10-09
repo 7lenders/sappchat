@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#000000" />
+<meta name="description" content="Sapp Chat | The world’s first Decentralized Messaging App meets Decentralized Banking" />
+<title>Sapp Chat</title>
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FFF8DC;
+    --bg-2:#FBF0CC;
+    --card:#FFFCF0;
+    --line:rgba(60,40,20,.13);
+    --text:#1F1A14;
+    --muted:#6B6256;
+    --accent-ink:#B4532F;
+    --accent:#D97757;
+    --accent-2:#D97757;
+    --accent-hover:#C6613F;
+    --accent-soft:rgba(217,119,87,.14);
+    --display:"Clash Display",system-ui,sans-serif;
+    --body:"Satoshi",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  .wrap{width:min(1200px,100% - 32px);margin-inline:auto}
+  .grad-text{color:var(--accent)}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;backdrop-filter:blur(14px);background:rgba(255,248,220,.8);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em}
+  .logo-mark{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;font-size:18px;font-weight:700;color:#fff}
+  .nav-links{display:flex;gap:6px;align-items:center;list-style:none}
+  .nav-links a{position:relative;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:15px;color:#3D352B;transition:background .2s,color .2s}
+  .nav-links a:hover{background:rgba(60,40,20,.07);color:var(--text)}
+  .badge-new{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:999px;background:var(--accent);color:#fff}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:15px;transition:transform .2s,box-shadow .2s}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--accent-hover)}
+  .burger{display:none;background:none;border:0;color:var(--text);cursor:pointer;padding:8px}
+  .mobile-menu{display:none}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:150px 0 80px;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+      .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+  .eyebrow{font-size:15px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(42px,7vw,92px);line-height:.98;letter-spacing:-.03em}
+  h1 .row{display:block}
+  h1 .thin{font-weight:400;color:#5A5045}
+  .rotator{display:inline-block;height:1em;overflow:hidden;vertical-align:bottom}
+  .rotator span{display:block;animation:rot 5s cubic-bezier(.7,0,.3,1) infinite}
+  @keyframes rot{0%,40%{transform:translateY(0)}50%,90%{transform:translateY(-100%)}100%{transform:translateY(-200%)}}
+  .star{color:var(--accent-2);font-weight:400}
+  .hero p.lead{margin-top:26px;font-size:19px;color:var(--muted);max-width:480px}
+  .stores{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .store{display:flex;align-items:center;gap:12px;padding:10px 20px 10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);transition:border-color .2s,background .2s,transform .2s}
+  .store:hover{border-color:var(--accent);background:#fff;transform:translateY(-2px)}
+  .store small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);line-height:1.2}
+  .store strong{display:block;font-size:17px;line-height:1.2}
+
+  /* Globe */
+  .globe-wrap{position:relative;aspect-ratio:1;width:100%;max-width:480px;justify-self:center}
+  .globe{position:absolute;inset:8%;border-radius:50%;background:#FBEFD0;border:1px solid rgba(217,119,87,.45);overflow:hidden}
+  .globe::before{content:"";position:absolute;inset:0;border-radius:50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Ccircle cx='7' cy='7' r='1.3' fill='%23D97757' fill-opacity='.55'/%3E%3C/svg%3E");background-size:14px 14px;animation:spin 30s linear infinite}
+  @keyframes spin{from{background-position:0 0}to{background-position:420px 0}}
+  .orbit{position:absolute;inset:0;border:1px dashed rgba(60,40,20,.2);border-radius:50%;animation:orbit 24s linear infinite}
+  .orbit.o2{inset:-6%;animation-duration:38s;animation-direction:reverse;border-style:solid;border-color:rgba(217,119,87,.18)}
+  @keyframes orbit{to{transform:rotate(360deg)}}
+  .chip{position:absolute;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,252,240,.92);border:1px solid var(--line);font-size:13px;font-weight:700;backdrop-filter:blur(8px);white-space:nowrap}
+  .chip i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .chip.c1{top:10%;left:-4%}.chip.c2{bottom:16%;right:-4%}.chip.c3{bottom:2%;left:12%}
+
+  .scroll-down{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.14em;text-align:center}
+  .mouse{width:24px;height:38px;border:2px solid rgba(60,40,20,.3);border-radius:14px;position:relative}
+  .mouse::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--text);animation:wheel 1.6s ease-in-out infinite}
+  @keyframes wheel{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(12px)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{position:relative;padding:110px 0;overflow-x:clip}
+  html,body{overflow-x:clip}
+  .tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:16px;font-weight:700}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,5vw,60px);line-height:1.04;letter-spacing:-.025em}
+  .sub{color:var(--muted);font-size:18px;max-width:640px;margin-top:18px}
+
+  /* About */
+  .about{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:end}
+  .about p.big{font-size:clamp(22px,2.6vw,32px);line-height:1.35;color:#3D352B;margin-top:20px;font-weight:500}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .stat{padding:30px;border:1px solid var(--line);border-radius:22px;background:var(--bg-2)}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(44px,5vw,64px);line-height:1;font-weight:600}
+  .stat span{color:var(--muted);font-size:16px}
+
+  /* Marquee */
+  .marquee{border-block:1px solid var(--line);padding:26px 0;overflow:hidden;background:var(--bg-2)}
+  .marquee .label{text-align:center;font-size:13px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:18px}
+  .track{display:flex;gap:56px;width:max-content;animation:scroll 32s linear infinite}
+  .track span{font-family:var(--display);font-size:28px;font-weight:500;color:#8A7F70;white-space:nowrap;display:flex;align-items:center;gap:56px}
+  .track span::after{content:"✦";color:var(--accent);font-size:18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* Features */
+  .features-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .feat{position:relative;padding:40px;border:1px solid var(--line);border-radius:28px;background:var(--card);overflow:hidden;transition:border-color .3s,transform .3s}
+  .feat:hover{border-color:rgba(217,119,87,.55);transform:translateY(-4px)}
+  .feat .num{font-family:var(--display);font-size:14px;color:var(--muted);margin-bottom:60px;display:flex;justify-content:space-between;align-items:center}
+  .feat .ico{width:52px;height:52px;border-radius:14px;background:var(--accent-soft);border:1px solid rgba(217,119,87,.35);display:grid;place-items:center;color:var(--accent)}
+  .feat h3{font-family:var(--display);font-weight:600;font-size:clamp(24px,2.4vw,30px);line-height:1.15;letter-spacing:-.01em;margin-bottom:14px}
+  .feat p{color:var(--muted);font-size:16.5px}
+
+  /* Exchange */
+  .exchange{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .ex-num{font-family:var(--display);font-size:80px;font-weight:600;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(60,40,20,.3);margin-bottom:10px}
+  .tokens{position:relative;aspect-ratio:1;max-width:460px;width:100%;justify-self:center}
+  .tokens .ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+  .tokens .ring.r2{inset:18%}
+  .tokens .center{position:absolute;inset:36%;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:clamp(16px,2.4vw,22px)}
+  .tokens .spin{position:absolute;inset:0;animation:orbit 40s linear infinite}
+  .tok{position:absolute;transform:translate(-50%,-50%);padding:10px 16px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:14px;white-space:nowrap}
+  .tok span{display:inline-block;animation:orbit 40s linear infinite reverse}
+
+  /* Technology */
+  .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px}
+  .tech{padding:32px 26px;border-radius:24px;border:1px solid var(--line);background:var(--bg-2);transition:background .3s,border-color .3s}
+  .tech:hover{background:var(--card);border-color:rgba(217,119,87,.45)}
+  .tech .ico{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);margin-bottom:26px}
+  .tech h4{font-family:var(--display);font-weight:600;font-size:22px;margin-bottom:10px;line-height:1.2}
+  .tech p{color:var(--muted);font-size:15.5px}
+
+  /* Partner cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}
+  .xcard{border:1px solid var(--line);border-radius:24px;background:var(--card);padding:24px}
+  .xcard-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .xbrand{display:flex;align-items:center;gap:12px}
+  .xlogo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-family:var(--display);font-size:18px}
+  .xbrand b{display:block;font-size:17px}
+  .xbrand small{color:var(--muted);font-size:13px;font-family:ui-monospace,monospace}
+  .xsel{padding:8px 16px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:700;background:transparent;cursor:pointer;color:var(--text);font-family:inherit;transition:background .2s}
+  .xsel:hover,.xsel.on{background:var(--accent);border-color:transparent;color:#fff}
+  .xrow{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+  .xrow span{color:var(--muted)}
+
+  /* CTA */
+  .cta{margin-top:20px;border-radius:32px;padding:clamp(40px,6vw,80px);background:var(--bg-2);border:1px solid rgba(217,119,87,.35);text-align:center}
+  .cta .stores{justify-content:center}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:50px 0 40px;margin-top:60px}
+  .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+  .foot-links{display:flex;flex-wrap:wrap;gap:8px 26px}
+  .foot-links a{color:var(--muted);font-size:15px;transition:color .2s}
+  .foot-links a:hover{color:var(--text)}
+  .copy{margin-top:30px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1000px){
+    .nav-links,.nav .btn{display:none}
+    .burger{display:block}
+    .mobile-menu{position:fixed;inset:72px 0 auto 0;background:rgba(255,248,220,.98);border-bottom:1px solid var(--line);padding:16px;flex-direction:column;gap:4px;z-index:49}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:14px 12px;border-radius:12px;font-size:17px;display:flex;align-items:center;gap:8px}
+    .mobile-menu a:hover{background:rgba(60,40,20,.07)}
+    .mobile-menu .btn{margin-top:8px;justify-content:center}
+    .hero-inner,.about,.exchange{grid-template-columns:1fr}
+    .globe-wrap{max-width:380px}
+    .tech-grid{grid-template-columns:repeat(2,1fr)}
+    .cards{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:680px){
+    section{padding:80px 0}
+    .hero{padding-top:120px;min-height:auto;padding-bottom:110px}
+    .feat-grid,.tech-grid,.cards{grid-template-columns:1fr}
+    .feat{padding:30px}
+    .feat .num{margin-bottom:36px}
+    .stats{grid-template-columns:1fr 1fr}
+    .stat{padding:22px}
+    .chip.c1{left:0}.chip.c2{right:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="wrap nav">
+    <a href="https://sapp-chat.vercel.app/" class="logo"><span class="logo-mark">S</span>Sappchat</a>
+    <ul class="nav-links">
+      <li><a href="https://sapp-chat.vercel.app/">Home</a></li>
+      <li><a href="https://orangerocklabs.com/" target="_blank" rel="noopener">Company</a></li>
+      <li><a href="https://sappchat.gitbook.io/docs/" target="_blank" rel="noopener">Docs</a></li>
+      <li><a href="https://sapp-chat.vercel.app/Mint">Mint</a></li>
+      <li><a href="https://sapp-chat.vercel.app/DN404">DN404 <span class="badge-new">new</span></a></li>
+    </ul>
+    <a href="https://hodl.sappchat.com/" target="_blank" rel="noopener" class="btn btn-primary">Stake App</a>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" id="burger">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="https://sapp-chat.vercel.app/">Home</a>
+  <a href="https://orangerocklabs.com/" target="_blank" rel="noopener">Company</a>
+  <a href="https://sappchat.gitbook.io/docs/" target="_blank" rel="noopener">Docs</a>
+  <a href="https://sapp-chat.vercel.app/Mint">Mint</a>
+  <a href="https://sapp-chat.vercel.app/DN404">DN404 <span class="badge-new">new</span></a>
+  <a href="https://hodl.sappchat.com/" target="_blank" rel="noopener" class="btn btn-primary">Stake App</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">The world’s first</p>
+      <h1>
+        <span class="row grad-text">Decentralized</span>
+        <span class="row">Messaging</span>
+        <span class="row thin">App meets</span>
+        <span class="row"><span class="rotator"><span>Decentralized <span class="star">*</span></span><span>Decentralized <span class="star">*</span></span></span></span>
+        <span class="row grad-text">Banking</span>
+      </h1>
+      <p class="lead">Be a part of the market leader in decentralized communication and finance</p>
+      <div class="stores">
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.sappchat" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 1.8 13.7 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1Zm11.2 11.3 2.6 2.6-11.6 6.6 9-9.2Zm0-2.2-9-9.2 11.6 6.6-2.6 2.6Zm3.9-1.6 2.9 1.7c.8.5.8 1.6 0 2l-2.9 1.7-2.9-2.7 2.9-2.7Z"/></svg>
+          <div><small>get it on</small><strong>Google play</strong></div>
+        </a>
+        <a class="store" href="https://apps.apple.com/fi/app/sappchat/id1569053748" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3-1.5Z"/></svg>
+          <div><small>get it on</small><strong>Apple play</strong></div>
+        </a>
+      </div>
+    </div>
+    <div class="globe-wrap" aria-hidden="true">
+      <div class="orbit o2"></div>
+      <div class="orbit"></div>
+      <div class="globe"></div>
+      <div class="chip c1"><i></i>180+ Languages</div>
+      <div class="chip c2"><i></i>50+ Tokens</div>
+      <div class="chip c3"><i></i>End-to-end encrypted</div>
+    </div>
+  </div>
+  <a href="#about" class="scroll-down"><div class="mouse"></div>scroll down<br>to explore more</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap about reveal">
+    <div>
+      <span class="tag">About</span>
+      <h2>What is Sappchat?</h2>
+      <p class="big">Sappchat is helping establish a new era of secure communication and easy peer-to-peer transfer of money and cryptocurrencies to everyone you know around the world</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b class="grad-text" data-count="180">180+</b><span>Languages</span></div>
+      <div class="stat"><b class="grad-text" data-count="50">50+</b><span>Tokens</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="track">
+    <span>Decentralized Messaging</span><span>Decentralized Banking</span><span>Multi-Chain Wallet</span><span>NFTs &amp; Stickers</span><span>DeFi</span><span>Instant Swap</span>
+    <span>Decentralized Messaging</span><span>Decentralized Banking</span><span>Multi-Chain Wallet</span><span>NFTs &amp; Stickers</span><span>DeFi</span><span>Instant Swap</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="features-head reveal">
+      <div><span class="tag">Features</span><h2>Everything in one app</h2></div>
+    </div>
+    <div class="feat-grid">
+      <article class="feat reveal">
+        <div class="num"><span>01</span><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6M10 9h3a1 1 0 0 1 0 2h-2a1 1 0 0 0 0 2h3"/></svg></span></div>
+        <h3>Transfer and Receive Cryptocurrency while Chatting</h3>
+        <p>With Sappchat, you can finally send text messages and share cryptocurrency at the same time. Peer to Peer payment between users has never been easier.</p>
+      </article>
+      <article class="feat reveal">
+        <div class="num"><span>02</span><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10M19 21V10M9 21v-7M15 21v-7M12 3 2 9h20z"/></svg></span></div>
+        <h3>DeFi is Available on Sappchat</h3>
+        <p>Save your cryptocurrency on Sappchat and earn interest up to 130% APY. With Sappchat, you can get an instant loan by pledging your cryptocurrency assets as collateral. Sappchat is making decentralized mobile banking available for everyone globally</p>
+      </article>
+      <article class="feat reveal">
+        <div class="num"><span>03</span><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></span></div>
+        <h3>Sappchat Offers the Coolest NFTs and Stickers Shopping Experience</h3>
+        <p>Easily discover, create, store and trade all your unique crypto NFTs (non-fungible tokens), stickers and game assets in one place. Sappchat shop is secure, reliable, and convenient.</p>
+      </article>
+      <article class="feat reveal">
+        <div class="num"><span>04</span><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16" cy="14" r="1.5"/></svg></span></div>
+        <h3>Best all-in-one Universal Cryptocurrency Wallet</h3>
+        <p>With Sappchat, you can buy, send, receive and store all your coins and tokens easily, quickly and securely. Sappchat supports over 50+ blockchains and 200+ cryptocurrencies like BTC, ETH, BNB, DOGE, etc.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- EXCHANGE -->
+<section id="exchange">
+  <div class="wrap exchange">
+    <div class="reveal">
+      <div class="ex-num">01</div>
+      <h2>Exchange your Crypto Assets <span class="grad-text">Instantly</span></h2>
+      <p class="sub">Make instant swap of over 200 tokens and coins within Sappchat. You can easily and securely buy, sell, or exchange between tokens or coins at the best rates.</p>
+    </div>
+    <div class="tokens reveal" aria-hidden="true">
+      <div class="ring"></div><div class="ring r2"></div>
+      <div class="center">APP</div>
+      <div class="spin">
+        <div class="tok" style="left:50%;top:0%"><span>Bitcoin</span></div>
+        <div class="tok" style="left:97%;top:35%"><span>Ethereum</span></div>
+        <div class="tok" style="left:80%;top:90%"><span>SOL</span></div>
+        <div class="tok" style="left:20%;top:90%"><span>BNB</span></div>
+        <div class="tok" style="left:3%;top:35%"><span>DOGE</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section id="technology">
+  <div class="wrap">
+    <div class="reveal"><span class="tag">Enabled Technology</span><h2>Built for security<br>and freedom</h2></div>
+    <div class="tech-grid">
+      <div class="tech reveal">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5v4M10.3 13 6.5 16M13.7 13l3.8 3"/><circle cx="12" cy="12.5" r="1"/></svg></div>
+        <h4>Decentralized</h4>
+        <p>Sappchat platform is decentralized through blockchain technology. Attacks on your sensitive data are impossible.</p>
+      </div>
+      <div class="tech reveal">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="7" height="10" rx="2"/><rect x="15" y="7" width="7" height="10" rx="2"/><path d="M9 12h6"/></svg></div>
+        <h4>Built on Multi-Chains</h4>
+        <p>The Sappchat is built on multi-chains technology smart contracts enable users to manage all their variety of digital assets securely in one place.</p>
+      </div>
+      <div class="tech reveal">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+        <h4>Superior end-to-end encryption</h4>
+        <p>Our security protocol developed on genuine end-to-end encryption and blockchain based authentication.</p>
+      </div>
+      <div class="tech reveal">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></div>
+        <h4>Artificial Intelligence</h4>
+        <p>Sappchat’s AI allows you to use your voice to take action. Search for exchange partners, surf your contact and manage your wallet without touching the device.</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="xcard reveal">
+        <div class="xcard-top">
+          <div class="xbrand"><div class="xlogo" style="background:#f3ba2f;color:#111">B</div><div><b>Binance</b><small>...04efa56865ff123</small></div></div>
+          <button class="xsel">Select</button>
+        </div>
+        <div class="xrow"><span>Sale Price</span><b>1 EUR = 261 USD</b></div>
+        <div class="xrow"><span>Arrive in</span><b>30 min</b></div>
+      </div>
+      <div class="xcard reveal">
+        <div class="xcard-top">
+          <div class="xbrand"><div class="xlogo" style="background:#23af91;color:#fff">K</div><div><b>Kucoin</b><small>...04efa56865ff123</small></div></div>
+          <button class="xsel">Select</button>
+        </div>
+        <div class="xrow"><span>Sale Price</span><b>1 EUR = 261 USD</b></div>
+        <div class="xrow"><span>Arrive in</span><b>30 min</b></div>
+      </div>
+      <div class="xcard reveal">
+        <div class="xcard-top">
+          <div class="xbrand"><div class="xlogo" style="background:#17181e;color:#f7a600">B</div><div><b>Bybit</b><small>...04efa56865ff123</small></div></div>
+          <button class="xsel">Select</button>
+        </div>
+        <div class="xrow"><span>Sale Price</span><b>1 EUR = 261 USD</b></div>
+        <div class="xrow"><span>Arrive in</span><b>30 min</b></div>
+      </div>
+    </div>
+
+    <div class="cta reveal" style="margin-top:90px">
+      <h2>Be a part of the market leader in<br><span class="grad-text">decentralized communication and finance</span></h2>
+      <div class="stores">
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.sappchat" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 1.8 13.7 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1Zm11.2 11.3 2.6 2.6-11.6 6.6 9-9.2Zm0-2.2-9-9.2 11.6 6.6-2.6 2.6Zm3.9-1.6 2.9 1.7c.8.5.8 1.6 0 2l-2.9 1.7-2.9-2.7 2.9-2.7Z"/></svg>
+          <div><small>get it on</small><strong>Google play</strong></div>
+        </a>
+        <a class="store" href="https://apps.apple.com/fi/app/sappchat/id1569053748" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3-1.5Z"/></svg>
+          <div><small>get it on</small><strong>Apple play</strong></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="https://sapp-chat.vercel.app/" class="logo"><span class="logo-mark">S</span>Sappchat</a>
+      <nav class="foot-links">
+        <a href="https://sappchat.com/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a>
+        <a href="https://sappchat.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a>
+        <a href="https://sappchat.com/aml-kyc-policy/" target="_blank" rel="noopener">AML &amp; KYC Policy</a>
+        <a href="https://sappchat.com/terms-and-conditions/" target="_blank" rel="noopener">Terms and Conditions</a>
+      </nav>
+    </div>
+    <div class="copy">
+      <span>Copyright © 2024 OrangeRock Labs | All Rights Reserved</span>
+      <span>Developed by OrangeRock Labs Ltd.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Count-up stats
+  const cio = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, end = +el.dataset.count; let n = 0;
+      const step = () => { n += Math.ceil(end / 40); if (n >= end) { el.textContent = end + '+'; return; } el.textContent = n + '+'; requestAnimationFrame(step); };
+      step(); cio.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+
+  // Exchange "Select" buttons
+  document.querySelectorAll('.xsel').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.xsel').forEach(b => { b.classList.remove('on'); b.textContent = 'Select'; });
+    btn.classList.add('on'); btn.textContent = 'Selected';
+  }));
+</script>
+</body>
+</html>
